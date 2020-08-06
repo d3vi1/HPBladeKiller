@@ -1,0 +1,14 @@
+<RIBCL VERSION="2.0">
+   <LOGIN USER_LOGIN="Administrator" PASSWORD="Not Required Because The OA Uses SSO">
+       <SERVER_INFO MODE="write">
+          <CLEAR_IML/>
+          <CLEAR_SERVER_POWER_ON_TIME />
+          <SET_HOST_POWER HOST_POWER="No"/>
+          <SERVER_AUTO_PWR VALUE="off" />
+       </SERVER_INFO>
+       <RIB_INFO MODE="write">
+          <AHS_CLEAR_DATA/>
+          <CLEAR_EVENTLOG/>
+       </RIB_INFO>
+   </LOGIN>
+</RIBCL>
