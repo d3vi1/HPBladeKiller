@@ -1,0 +1,44 @@
+#!/usr/bin/expect
+set send_slow {1 0.02}
+log_user 1
+set timeout 60
+set host [lindex $argv 0];
+set prompt "hpiLO->"
+
+spawn ssh -o "StrictHostKeyChecking=no" Administrator@[lindex $argv 0]
+
+expect "yes/no" {
+			send "yes\r"
+			expect "*?assword" { send "myPassword\r" }
+		} "*?assword" { send "myPassword\r" }
+
+expect -re $prompt {
+	send "power off \r"
+}
+
+expect -re $prompt {
+	send "cd /map1/oemhp_license1\r"
+}
+expect -re $prompt {
+	send "oemhp_licenseinstall \"ABCDE-ABCDE-ABCDE-ABCDE-ABCDE\"\r"
+}
+
+expect -re $prompt {
+	send "cd /\r"
+}
+
+expect -re $prompt {
+	send "set /map1/oemhp_vm1/cddr1 oemhp_image=https://example.com/hperaser/image.iso\r"
+}
+
+expect -re $prompt {
+	send "set /map1/oemhp_vm1/cddr1 oemhp_boot=Once\r"
+}
+
+expect -re $prompt {
+	send "power on \r"
+}
+
+expect -re $prompt {
+	send "TEXTCONS\r"
+}
