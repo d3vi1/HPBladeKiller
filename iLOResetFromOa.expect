@@ -1,0 +1,33 @@
+#!/usr/bin/expect
+
+log_user 0
+set send_slow {1 0.1}
+set timeout 240
+set host [lindex $argv 0];
+set prompt {OA-.*> }
+
+spawn ssh -o "StrictHostKeyChecking=no" Administrator@[lindex $argv 0]
+
+expect "yes/no" {
+			send "yes\r"
+			expect "*?assword" { send "myPassword\r" }
+		} "*?assword" { send "myPassword\r" }
+
+# "OA-3863BB311613> "
+expect -re $prompt {
+	send "hponcfg [lindex $argv 1] << STARTSTR\r"
+	send "<RIBCL VERSION=\"2.0\">\r"
+	send "<LOGIN USER_LOGIN=\"Administrator\" PASSWORD=\"myPassword\">\r"
+	send "<RIB_INFO MODE=\"write\">\r"
+	send "<FACTORY_DEFAULTS/>\r"
+	send "</RIB_INFO>\r"
+	send "</LOGIN>\r"
+	send "</RIBCL>\r"
+	send "STARTSTR\r\r"
+	log_user 1
+}
+
+expect -re $prompt {
+	log_user 0
+	send "exit\r"
+}
