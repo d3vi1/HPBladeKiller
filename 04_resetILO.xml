@@ -1,0 +1,7 @@
+<RIBCL VERSION="2.0">
+   <LOGIN USER_LOGIN="Administrator" PASSWORD="Not Required Because The OA Uses SSO">
+       <RIB_INFO MODE="write">
+          <FACTORY_DEFAULTS/>
+       </RIB_INFO>
+   </LOGIN>
+</RIBCL>
