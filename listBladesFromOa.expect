@@ -1,0 +1,26 @@
+#!/usr/bin/expect
+
+log_user 0
+set timeout 60
+set host [lindex $argv 0];
+set prompt {OA-.*> }
+#set prompt "(%|#|>|\\$ )"
+#set prompt {[#>$] }
+
+spawn ssh -o "StrictHostKeyChecking=no" Administrator@[lindex $argv 0]
+
+expect "yes/no" {
+			send "yes\r"
+			expect "*?assword" { send "myPassword\r" }
+		} "*?assword" { send "myPassword\r" }
+
+# "OA-3863BB311613> "
+expect -re $prompt {
+	send "[lrange $argv 1 end] \r"
+	log_user 1
+	send "\r"
+}
+
+expect -re $prompt {
+	log_user 0
+}
